@@ -1,0 +1,105 @@
+/*
+  css/login.css
+
+  Hoja de estilos específica para la página de login.
+  Variables CSS (custom properties) definidas en :root:
+  - --bg1 / --bg2: colores del degradado de fondo
+  - --card: color de fondo de la tarjeta
+  - --accent: color de énfasis para focus / sombras
+  - --muted: color para etiquetas y textos secundarios
+
+  Diseño:
+  - Tarjeta centrada con sombra, inputs estilizados y botón con gradiente
+  - Responsive: ajustes para pantallas pequeñas
+*/
+
+/* css/login.css — estilos para la página de login */
+:root{
+  --bg1:#6a11cb;
+  --bg2:#2575fc;
+  --card:#ffffff;
+  --accent:#2575fc;
+  --muted:#6b6b6b;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(135deg,var(--bg1),var(--bg2));
+  color:#222;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  -webkit-font-smoothing:antialiased;
+}
+
+.login-container{
+  width:100%;
+  max-width:420px;
+  background: rgba(255,255,255,0.97);
+  padding:32px;
+  border-radius:12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  text-align:center;
+}
+
+.logo{
+  max-width:120px;
+  margin:0 auto 12px;
+  display:block;
+}
+
+.login-form h1{
+  margin:0 0 18px;
+  font-size:1.4rem;
+  color: #222;
+}
+
+.form-group{
+  text-align:left;
+  margin-bottom:14px;
+}
+
+label{
+  display:block;
+  font-size:0.9rem;
+  margin-bottom:6px;
+  color:var(--muted);
+}
+
+input[type="email"],
+input[type="password"]{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid #e6e6e6;
+  border-radius:8px;
+  font-size:1rem;
+  outline:none;
+  transition:box-shadow .15s, border-color .15s;
+}
+
+input:focus{
+  border-color:var(--accent);
+  box-shadow: 0 0 0 6px rgba(37,117,252,0.06);
+}
+
+.btn{
+  width:100%;
+  padding:12px 14px;
+  border:none;
+  border-radius:8px;
+  background: linear-gradient(90deg,var(--bg1),var(--bg2));
+  color:#fff;
+  font-weight:600;
+  font-size:1rem;
+  cursor:pointer;
+  transition:transform .08s ease, box-shadow .08s ease;
+}
+
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,117,252,0.22)}
+
+/* Responsive */
+@media (max-width:480px){
+  .login-container{padding:20px;border-radius:10px}
+}
