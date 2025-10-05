@@ -1,0 +1,256 @@
+/*
+  css/styles.css
+
+  Estilos globales para la aplicación (layout, botones y tablas).
+  - Contiene clases reutilizables: .container, .menu-button, .inventory-table, etc.
+  - Mantener consistencia de colores y tamaños aquí; reservar css/login.css para la página de login.
+  
+  Notas de documentación:
+  - Las clases principales usadas en las páginas son:
+    - .container: wrapper principal
+    - .header / .top-nav: encabezado y menú horizontal
+    - .menu-button: estilo base para enlaces/botones
+    - .inventory-table: tablas de datos
+  - Para personalizar colores, ajustar variables al inicio del archivo (no presentes aquí en este tema).
+*/
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contenedor principal */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+/* Encabezado */
+.header {
+  width: 100%;
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(90deg,#1565c0,#1e88e5); /* fondo azul */
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(16, 64, 120, 0.12);
+}
+
+/* Logo */
+.logo {
+  width: 80px;
+  height: auto;
+}
+
+.title {
+  font-size: 1.4rem;
+  color: #fff;
+  letter-spacing: 0.6px;
+}
+
+/* Contenido principal */
+.main-content {
+  text-align: center;
+  margin: 40px 0;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.welcome {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.instruction {
+  margin-bottom: 30px;
+  color: #777;
+}
+
+/* Menú */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Botones base */
+.menu-button {
+  display: inline-block; /* anchors behave like buttons */
+  padding: 10px 18px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  color: rgb(67, 65, 65);
+  cursor: pointer;
+  transition: background-color 0.18s ease, transform 0.08s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* Variantes para el menú vertical principal (pantalla principal) */
+.menu .menu-button {
+  min-width: 180px;
+  padding: 12px 25px;
+}
+
+/* Estilos específicos para el menú superior (horizontal) */
+.top-nav .menu-button {
+  background: transparent;
+  color: #4c4d4e; /* claro para contraste con fondo azul */
+  padding: 8px 12px;
+  border-radius: 6px;
+  min-width: 0;
+}
+.top-nav .menu-button:hover {
+  background: rgba(255,255,255,0.08);
+  color: #2e4fbb;
+  transform: translateY(-2px);
+}
+
+/* Estilo para enlace activo en el menú superior */
+.top-nav .menu-button.active {
+  background: linear-gradient(90deg,#0d47a1,#1976d2);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(13,71,161,0.22);
+  transform: translateY(-2px);
+}
+
+/* Fondo y separación del top-nav para mejorar legibilidad */
+.top-nav {
+  background: rgba(255,255,255,0.85);
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+
+/* Helpers para layout del header creado para reemplazar estilos inline */
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.spacer-small{ height:10px }
+
+/* Error en formularios */
+.form-error{
+  color:#b00020;
+  font-weight:600;
+  margin-bottom:12px;
+}
+
+.menu-button:focus {
+  outline: 2px solid rgba(37,117,252,0.18);
+  outline-offset: 2px;
+}
+
+/* Colores únicos por botón */
+.btn-inicio {
+  background-color: #0077cc;
+}
+.btn-inicio:hover {
+  background-color: #005fa3;
+}
+
+.btn-inventario {
+  background-color: #28a745;
+}
+.btn-inventario:hover {
+  background-color: #218838;
+}
+
+.btn-nomina {
+  background-color: #ffc107;
+  color: #333;
+}
+.btn-nomina:hover {
+  background-color: #e0a800;
+}
+
+.btn-mantenimiento {
+  background-color: #17a2b8;
+}
+.btn-mantenimiento:hover {
+  background-color: #117a8b;
+}
+
+.btn-ventas {
+  background-color: #dc3545;
+}
+.btn-ventas:hover {
+  background-color: #c82333;
+}
+
+/* Responsive: colocar el header en columna en pantallas pequeñas */
+@media (max-width: 720px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .top-nav {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .menu .menu-button {
+    width: 100%;
+    max-width: 380px;
+  }
+}
+
+/* Pie de página */
+.footer {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #aaa;
+}
+/* Tabla de inventario */
+.inventory-table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 90%;
+  max-width: 800px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-table th,
+.inventory-table td {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.inventory-table th {
+  background-color: #0077cc;
+  color: white;
+}
+
+.inventory-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.return-menu {
+  margin-top: 30px;
+  text-align: center;
+}
