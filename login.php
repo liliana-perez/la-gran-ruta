@@ -99,8 +99,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" action="" class="login-form">
             <h1>Iniciar sesión</h1>
             <?php if (!empty($error)): ?>
-                <div class="form-group form-error">
-                    <?php echo htmlspecialchars($error); ?>
+                <!-- Mensaje de error accesible y con diseño -->
+                <div class="message message-error" role="alert" aria-live="assertive">
+                    <span class="message-icon" aria-hidden="true">⚠</span>
+                    <div class="message-text"><?php echo htmlspecialchars($error); ?></div>
                 </div>
             <?php endif; ?>
             <div class="form-group">
