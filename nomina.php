@@ -3,23 +3,33 @@
 /**
  * nomina.php
  *
- * Gestión de nómina con persistencia en la tabla `empleados`.
- * - Usa la tabla:
- *   CREATE TABLE empleados (
- *     id INT AUTO_INCREMENT PRIMARY KEY,
- *     nombre VARCHAR(100) NOT NULL,
- *     cargo VARCHAR(100) NOT NULL,
- *     salario DECIMAL(10,2) NOT NULL,
- *     estado ENUM('Activo', 'Inactivo') DEFAULT 'Activo'
- *   );
+ * Gestión de nómina (CRUD sobre la tabla `empleados`).
  *
- * Requiere: config.php ($host, $user, $pass, $db)
+ * Tabla esperada:
+ * CREATE TABLE empleados (
+ *   id INT AUTO_INCREMENT PRIMARY KEY,
+ *   nombre VARCHAR(100) NOT NULL,
+ *   cargo VARCHAR(100) NOT NULL,
+ *   salario DECIMAL(10,2) NOT NULL,
+ *   estado ENUM('Activo','Inactivo') DEFAULT 'Activo'
+ * );
+ *
+ * Funcionalidad:
+ * - Maneja acciones POST: create (por defecto), update, delete.
+ * - Muestra lista de empleados y ofrece edición/eliminación.
+ *
+ * Requiere: config.php (variables $host, $user, $pass, $db)
  */
 
 require_once 'config.php';
 session_start();
 
-// Opcional: require login
+/* Determina el nombre del archivo actual para marcar el item activo en el menú.
+   Ejemplo: $current === 'nomina.php' */
+$current = basename($_SERVER['PHP_SELF']);
+
+/* Control de acceso básico: redirige a login si no hay sesión válida.
+   Reemplazar/expandir con lógica de permisos según se necesite. */
 if (empty($_SESSION['user_id'])) {
   header('Location: login.php');
   exit;
@@ -168,19 +178,22 @@ $conn->close();
 <body>
   <div class="container">
     <header class="header">
-      <div class="header-row">
-        <div class="header-brand">
-          <img src="images/logo.png" alt="Logo La Gran Ruta" class="logo" />
-          <h1 class="title">LA GRAN RUTA</h1>
-        </div>
-        <nav class="top-nav" aria-label="Menú principal">
-          <a href="inventario.php" class="menu-button">Inventario</a>
-          <a href="nomina.php" class="menu-button">Nómina</a>
-          <a href="mantenimiento.php" class="menu-button">Mantenimiento</a>
-          <a href="ventas.php" class="menu-button">Ventas</a>
-          <a href="logout.php" class="menu-button">Cerrar sesión</a>
-        </nav>
+      <div class="header-brand">
+        <img src="images/logo.png" alt="Logo La Gran Ruta" class="logo" />
+        <h1 class="title">LA GRAN RUTA</h1>
       </div>
+
+      <nav class="top-nav" aria-label="Menú principal">
+        <div class="nav-menu">
+          <a href="dashboard.php" class="menu-button <?php echo $current === 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a>
+          <a href="inventario.php" class="menu-button <?php echo $current === 'inventario.php' ? 'active' : ''; ?>">Inventario</a>
+          <a href="nomina.php" class="menu-button <?php echo $current === 'nomina.php' ? 'active' : ''; ?>">Nómina</a>
+          <a href="mantenimiento.php" class="menu-button <?php echo $current === 'mantenimiento.php' ? 'active' : ''; ?>">Mantenimiento</a>
+          <a href="ventas.php" class="menu-button <?php echo $current === 'ventas.php' ? 'active' : ''; ?>">Ventas</a>
+          <a href="logout.php" class="menu-button">Cerrar sesión</a>
+        </div>
+        <span class="nav-indicator" aria-hidden="true"></span>
+      </nav>
     </header>
 
     <main class="main-content">
@@ -301,107 +314,7 @@ $conn->close();
   </div>
 
   <!-- Ya no se necesita el script que añadía filas en el cliente -->
-  <script>
-    // Mejor manejo del modal: espera a DOMContentLoaded, bloquea scroll y gestiona foco.
-    document.addEventListener('DOMContentLoaded', function() {
-      const openBtn = document.getElementById('open-form-btn');
-      const closeBtn = document.getElementById('close-form-btn');
-      const cancelBtn = document.getElementById('cancel-form-btn');
-      const panel = document.getElementById('panel-form');
-      const backdrop = document.getElementById('modal-backdrop');
-      const panelTitle = document.getElementById('panel-title');
-      const form = document.getElementById('form-nomina');
-      const formAction = document.getElementById('form-action');
-      const empleadoId = document.getElementById('empleado-id');
-
-      if (!panel || !backdrop || !openBtn) return;
-
-      function openPanel() {
-        panel.classList.add('open');
-        backdrop.classList.add('open');
-        panel.setAttribute('aria-hidden', 'false');
-        backdrop.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('no-scroll');
-        // focus primer campo para accesibilidad (esperar al final del frame)
-        requestAnimationFrame(() => {
-          const first = panel.querySelector('input, select, button');
-          if (first) first.focus();
-        });
-      }
-
-      function closePanel() {
-        panel.classList.remove('open');
-        backdrop.classList.remove('open');
-        panel.setAttribute('aria-hidden', 'true');
-        backdrop.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('no-scroll');
-        openBtn.focus();
-        // reset form to create mode
-        form.reset();
-        formAction.value = 'create';
-        empleadoId.value = '';
-        panelTitle.textContent = 'Registrar nuevo empleado';
-      }
-
-      openBtn.addEventListener('click', function() {
-        // preparar formulario para crear
-        formAction.value = 'create';
-        empleadoId.value = '';
-        panelTitle.textContent = 'Registrar nuevo empleado';
-        openPanel();
-      });
-      closeBtn && closeBtn.addEventListener('click', closePanel);
-      cancelBtn && cancelBtn.addEventListener('click', closePanel);
-      backdrop.addEventListener('click', closePanel);
-
-      // Edit buttons: abrir panel y rellenar datos
-      document.querySelectorAll('.op-edit').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          const id = btn.getAttribute('data-id');
-          const nombre = btn.getAttribute('data-nombre');
-          const cargo = btn.getAttribute('data-cargo');
-          const salario = btn.getAttribute('data-salario');
-          const estado = btn.getAttribute('data-estado');
-
-          // set values in the panel
-          document.getElementById('nombre').value = nombre;
-          document.getElementById('cargo').value = cargo;
-          document.getElementById('salario').value = salario;
-          document.getElementById('estado').value = estado;
-          formAction.value = 'update';
-          empleadoId.value = id;
-          panelTitle.textContent = 'Editar empleado #' + id;
-          openPanel();
-        });
-      });
-
-      // Delete forms: confirm before submit
-      document.querySelectorAll('.delete-form').forEach(function(f) {
-        f.addEventListener('submit', function(e) {
-          // show confirm dialog
-          if (!confirm('¿Confirma que desea eliminar este empleado? Esta acción no se puede deshacer.')) {
-            return false;
-          }
-          // if confirmed, submit normally
-          f.submit();
-          return true;
-        });
-      });
-
-      // Esc para cerrar
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && panel.classList.contains('open')) {
-          closePanel();
-        }
-      });
-
-      // Evitar submit accidental al presionar Enter si el panel está cerrado
-      document.addEventListener('submit', function(e) {
-        // si el formulario está dentro del panel permitimos submit, si no lo está y panel abierto, cerrar
-        // (no es estrictamente necesario, queda como protección)
-      }, true);
-    });
-  </script>
+  <script src="js/nomina.js"></script>
 </body>
 
 </html>

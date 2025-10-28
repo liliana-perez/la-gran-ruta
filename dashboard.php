@@ -21,6 +21,7 @@ if (empty($_SESSION['user_id'])) {
 }
 
 $userName = $_SESSION['user_name'] ?? 'Usuario';
+$current = basename($_SERVER['PHP_SELF']);
 ?>
 
 <!DOCTYPE html>
@@ -36,19 +37,22 @@ $userName = $_SESSION['user_name'] ?? 'Usuario';
 <body>
   <div class="container">
     <header class="header">
-      <div class="header-row">
-        <div class="header-brand">
-          <img src="images/logo.png" alt="Logo La Gran Ruta" class="logo" />
-          <h1 class="title">LA GRAN RUTA</h1>
-        </div>
-        <nav class="top-nav" aria-label="Menú principal">
-          <a href="inventario.php" class="menu-button">Inventario</a>
-          <a href="nomina.php" class="menu-button">Nómina</a>
-          <a href="mantenimiento.php" class="menu-button">Mantenimiento</a>
-          <a href="ventas.php" class="menu-button">Ventas</a>
-          <a href="logout.php" class="menu-button">Cerrar sesión</a>
-        </nav>
+      <div class="header-brand">
+        <img src="images/logo.png" alt="Logo La Gran Ruta" class="logo" />
+        <h1 class="title">LA GRAN RUTA</h1>
       </div>
+
+      <nav class="top-nav" aria-label="Menú principal">
+        <div class="nav-menu">
+          <a href="dashboard.php" class="menu-button <?php echo $current === 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a>
+          <a href="inventario.php" class="menu-button <?php echo $current === 'inventario.php' ? 'active' : ''; ?>">Inventario</a>
+          <a href="nomina.php" class="menu-button <?php echo $current === 'nomina.php' ? 'active' : ''; ?>">Nómina</a>
+          <a href="mantenimiento.php" class="menu-button <?php echo $current === 'mantenimiento.php' ? 'active' : ''; ?>">Mantenimiento</a>
+          <a href="ventas.php" class="menu-button <?php echo $current === 'ventas.php' ? 'active' : ''; ?>">Ventas</a>
+          <a href="logout.php" class="menu-button">Cerrar sesión</a>
+        </div>
+        <span class="nav-indicator" aria-hidden="true"></span>
+      </nav>
     </header>
 
     <main class="main-content">
@@ -80,6 +84,42 @@ $userName = $_SESSION['user_name'] ?? 'Usuario';
       } catch (e) {
         console && console.warn && console.warn(e)
       }
+    })();
+
+    (function() {
+      function updateIndicator() {
+        var nav = document.querySelector('.top-nav');
+        if (!nav) return;
+        var indicator = nav.querySelector('.nav-indicator');
+        var active = nav.querySelector('.menu-button.active');
+        if (!indicator) return;
+        if (active) {
+          var rect = active.getBoundingClientRect();
+          var parentRect = nav.getBoundingClientRect();
+          var left = rect.left - parentRect.left;
+          var width = rect.width;
+          indicator.style.left = left + 'px';
+          indicator.style.width = width + 'px';
+          indicator.classList.remove('hidden');
+        } else {
+          indicator.classList.add('hidden');
+        }
+      }
+
+      window.addEventListener('load', updateIndicator);
+      window.addEventListener('resize', function() {
+        requestAnimationFrame(updateIndicator);
+      });
+
+      document.addEventListener('click', function(e) {
+        var btn = e.target.closest('.top-nav .menu-button');
+        if (!btn) return;
+        document.querySelectorAll('.top-nav .menu-button').forEach(function(el) {
+          el.classList.remove('active');
+        });
+        btn.classList.add('active');
+        requestAnimationFrame(updateIndicator);
+      });
     })();
   </script>
 </body>

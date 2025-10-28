@@ -121,19 +121,171 @@
   transform: translateY(-2px);
 }
 
-/* Estilo para enlace activo en el menú superior */
+/* Indicador deslizante: se posiciona detrás del botón activo */
+.top-nav .nav-indicator {
+  position: absolute;
+  height: 42px;
+  background: linear-gradient(90deg,#ffd54f,#ffb300);
+  border-radius: 6px; /* cambiado: ya no es pill (999px) */
+  box-shadow: 0 10px 30px rgba(255,179,0,0.12);
+  transform-origin: left center;
+  transition: width .22s cubic-bezier(.2,.9,.2,1), transform .22s cubic-bezier(.2,.9,.2,1), left .22s cubic-bezier(.2,.9,.2,1), opacity .18s ease;
+  z-index: 1;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.98;
+  pointer-events: none;
+}
+
+/* Cuando no hay activo, disminuir opacidad */
+.top-nav .nav-indicator.hidden { opacity: 0; }
+
+/* Hover: texto oscuro y legible sobre el indicador claro */
+.top-nav .menu-button:hover {
+  transform: translateY(-3px);
+  opacity: 1;
+  color: #073b8a; /* color oscuro para buen contraste con el indicador amarillo */
+  text-decoration: none;
+  text-shadow: none;
+}
+
+/* Estilo cuando es activo (aplica color en caso JS/PHP marque la clase) */
 .top-nav .menu-button.active {
-  background: linear-gradient(90deg,#0d47a1,#1976d2);
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(13,71,161,0.22);
-  transform: translateY(-2px);
+  color: #073b8a; /* texto oscuro cuando está activo sobre el indicador */
+  font-weight: 700;
+  opacity: 1;
 }
 
 /* Fondo y separación del top-nav para mejorar legibilidad */
 .top-nav {
-  background: rgba(255,255,255,0.85);
-  padding: 6px 8px;
-  border-radius: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  padding: 8px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(16,64,120,0.06);
+}
+
+/* Menú: fila de links */
+.top-nav .nav-menu {
+  display: flex;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Link estilo (pill) */
+.top-nav .menu-button {
+  background: transparent;
+  color: rgba(255,255,255,0.95);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+  border: none;
+  text-decoration: none;
+  transition: color .18s ease, transform .12s ease;
+  opacity: 0.92;
+}
+
+/* Hover look */
+.top-nav .menu-button:hover {
+  transform: translateY(-3px);
+  opacity: 1;
+  color: #fff;
+}
+
+/* Estilo cuando es activo (aplica color en caso JS/PHP marque la clase) */
+.top-nav .menu-button.active {
+  color: #073b8a;
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* Indicador deslizante: se posiciona detrás del botón activo */
+.top-nav .nav-indicator {
+  position: absolute;
+  height: 42px;
+  background: linear-gradient(90deg,#ffd54f,#ffb300);
+  border-radius: 6px; /* cambiado: ya no es pill (999px) */
+  box-shadow: 0 10px 30px rgba(255,179,0,0.12);
+  transform-origin: left center;
+  transition: width .22s cubic-bezier(.2,.9,.2,1), transform .22s cubic-bezier(.2,.9,.2,1), left .22s cubic-bezier(.2,.9,.2,1), opacity .18s ease;
+  z-index: 1;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.98;
+  pointer-events: none;
+}
+
+/* Cuando no hay activo, disminuir opacidad */
+.top-nav .nav-indicator.hidden { opacity: 0; }
+
+/* Hover: texto oscuro y legible sobre el indicador claro */
+.top-nav .menu-button:hover {
+  transform: translateY(-3px);
+  opacity: 1;
+  color: #073b8a; /* color oscuro para buen contraste con el indicador amarillo */
+  text-decoration: none;
+  text-shadow: none;
+}
+
+/* Estilo cuando es activo (aplica color en caso JS/PHP marque la clase) */
+.top-nav .menu-button.active {
+  color: #073b8a; /* texto oscuro cuando está activo sobre el indicador */
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* =========================
+   TOP-NAV: comportamiento activo
+   =========================
+   - Asegura que el texto del enlace activo sea visible por encima del indicador.
+   - El indicador queda detrás; el enlace activo se coloca con z-index mayor.
+   - Se añaden comentarios para facilitar mantenimiento.
+*/
+.top-nav .nav-menu .menu-button {
+  position: relative; /* necesario para posicionar el active encima del indicador */
+  z-index: 2;
+}
+
+/* enlace activo: texto oscuro, más peso y colocado por encima del indicador */
+.top-nav .menu-button.active {
+  color: #073b8a !important; /* contraste con indicador amarillo */
+  font-weight: 700;
+  opacity: 1;
+  position: relative;
+  z-index: 3; /* por encima del .nav-indicator (z-index:1) */
+  background: rgb(237, 196, 94);
+}
+
+
+/* mejora visual: cuando el indicador está inmediatamente debajo, hacer que el texto sea más legible */
+.top-nav .menu-button.active,
+.top-nav .menu-button:hover {
+  text-shadow: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* fallback: si el indicador tapa el texto en algunos navegadores, añadir un ligero padding */
+.top-nav .menu-button { padding: 8px 16px; }
+
+/* =========================
+   FIN: TOP-NAV activo
+   ========================= */
+
+/* Responsive: ajustar tamaño del indicador */
+@media (max-width: 520px) {
+  .top-nav { padding: 6px 8px; }
+  .top-nav .nav-indicator { height: 38px; }
+  .top-nav .menu-button { padding: 7px 10px; font-size: 0.9rem; }
 }
 
 /* Helpers para layout del header creado para reemplazar estilos inline */
