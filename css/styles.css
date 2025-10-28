@@ -94,7 +94,7 @@
   font-size: 1rem;
   border: none;
   border-radius: 8px;
-  color: rgb(67, 65, 65);
+  color: rgb(247, 238, 238);
   cursor: pointer;
   transition: background-color 0.18s ease, transform 0.08s ease;
   text-decoration: none;
@@ -199,6 +199,102 @@
   background-color: #c82333;
 }
 
+/* Mensajes (error / success) globales */
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  margin-bottom: 0.9rem;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+}
+
+.message-icon {
+  flex: 0 0 auto;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-top: 2px;
+}
+
+.message-text {
+  flex: 1 1 auto;
+}
+
+.message-error {
+  background: #fff6f6;
+  color: #8a1f1f;
+  border: 1px solid #f5c6c6;
+}
+
+.message-success {
+  background: #f6ffef;
+  color: #197019;
+  border: 1px solid #d4f2d4;
+}
+
+/* Form sections (reutilizables para dashboard) */
+.form-section {
+  background: #fff;
+  padding: 18px;
+  border-radius: 8px;
+  box-shadow: 0 4px 18px rgba(12,40,80,0.06);
+  max-width: 900px;
+  margin: 0 auto 24px;
+  text-align: left;
+}
+
+/* Formularios: inputs y selects */
+.form-section input[type="text"],
+.form-section input[type="email"],
+.form-section input[type="number"],
+.form-section input[type="password"],
+.form-section select,
+form#form-nomina input[type="text"],
+form#form-nomina input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 0.98rem;
+  background: #fff;
+  color: #333;
+}
+
+.form-section label,
+.form-section .label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Botón principal genérico */
+.btn {
+  background: linear-gradient(90deg,#1976d2,#0d47a1);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform .08s ease, box-shadow .12s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(13,71,161,0.12);
+}
+
+/* Texto de ayuda / muted */
+.muted {
+  color: #7a7a7a;
+  font-size: 0.95rem;
+}
+
 /* Responsive: colocar el header en columna en pantallas pequeñas */
 @media (max-width: 720px) {
   .header {
@@ -254,3 +350,152 @@
   margin-top: 30px;
   text-align: center;
 }
+
+/* ---------- Nuevo: panel / animación para formulario de nómina ---------- */
+
+/* Botón que abre el formulario */
+.btn-open-form {
+  background: linear-gradient(90deg,#ffb74d,#ff9800);
+  color: #1f1f1f;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(255,152,0,0.18);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn-open-form:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(255,152,0,0.22); }
+
+/* Backdrop: usar visibility+opacity para transiciones fluidas */
+.modal-backdrop {
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  inset: 0;
+  background: rgba(8,20,40,0.45);
+  backdrop-filter: blur(3px);
+  z-index: 9998;        /* mayor prioridad */
+  transition: opacity .25s ease, visibility .25s ease;
+  pointer-events: none;
+}
+.modal-backdrop.open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Panel deslizable / modal del formulario */
+.form-panel {
+  position: fixed;
+  right: 22px;
+  top: 90px;
+  width: 360px;
+  max-width: calc(100% - 44px);
+  z-index: 9999;        /* encima del backdrop */
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 24px 60px rgba(12,40,80,0.18);
+  transform: translateY(-8px) translateX(20px) scale(.99);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .28s cubic-bezier(.2,.9,.2,1), opacity .22s ease;
+}
+.form-panel.open {
+  transform: translateY(0) translateX(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Bloqueo de scroll al abrir */
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Cabecera del panel */
+.panel-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.panel-header-row h3 { margin: 0; font-size: 1.05rem; color: #223; }
+
+/* Ajustes internos del panel: inputs más compactos */
+.form-panel input[type="text"],
+.form-panel select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+  margin-bottom: 10px;
+}
+
+/* Botón cerrar dentro del panel */
+.btn-close {
+  background: transparent;
+  color: #666;
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+.btn-close:hover {
+  background: rgba(0,0,0,0.04);
+  transform: translateY(-2px);
+}
+
+/* Mobile: panel ocupa fondo inferior */
+@media (max-width: 520px) {
+  .form-panel {
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 20px;
+    width: auto;
+    transform: translateY(10px) scale(.99);
+  }
+  .form-panel.open { transform: translateY(0) scale(1); }
+}
+
+/* Operaciones (editar / eliminar) */
+.ops-cell {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.op-btn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: transform .08s ease, box-shadow .12s ease, opacity .12s ease;
+}
+
+/* Edit botón */
+.op-edit {
+  background: linear-gradient(90deg,#42a5f5,#1e88e5);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(30,136,229,0.12);
+}
+.op-edit:hover { transform: translateY(-2px); }
+
+/* Delete botón */
+.op-delete {
+  background: linear-gradient(90deg,#ef5350,#e53935);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(229,57,53,0.12);
+}
+.op-delete:hover { transform: translateY(-2px); }
+
+/* Estilo para formularios inline (delete) para que no rompa layout */
+.inline-form { display: inline-block; margin: 0; padding: 0; }
+
+/* Asegurar que ops se ven bien en móvil */
+@media (max-width: 520px) {
+  .ops-cell { flex-direction: column; gap: 6px; }
+  .op-btn { width: 100%; text-align: center; }
+}
+
+/* --------------------------------------------------------------------- */
