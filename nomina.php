@@ -168,8 +168,19 @@ $conn->close();
 <body>
   <div class="container">
     <header class="header">
-      <img src="images/logo.png" alt="Logo La Gran Ruta" class="logo" />
-      <h1 class="title">LA GRAN RUTA</h1>
+      <div class="header-row">
+        <div class="header-brand">
+          <img src="images/logo.png" alt="Logo La Gran Ruta" class="logo" />
+          <h1 class="title">LA GRAN RUTA</h1>
+        </div>
+        <nav class="top-nav" aria-label="Menú principal">
+          <a href="inventario.php" class="menu-button">Inventario</a>
+          <a href="nomina.php" class="menu-button">Nómina</a>
+          <a href="mantenimiento.php" class="menu-button">Mantenimiento</a>
+          <a href="ventas.php" class="menu-button">Ventas</a>
+          <a href="logout.php" class="menu-button">Cerrar sesión</a>
+        </nav>
+      </div>
     </header>
 
     <main class="main-content">
@@ -280,7 +291,7 @@ $conn->close();
       </table>
 
       <div class="return-menu">
-        <a href="dashboard.php" class="menu-button btn-inicio">Volver al Menú</a>
+        <a href="dashboard.php" class="menu-button btn-inicio">Volver al inicio</a>
       </div>
     </main>
 
