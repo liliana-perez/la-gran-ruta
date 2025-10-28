@@ -156,3 +156,140 @@ Licencia
 Fin
 
 - Documentación generada para facilitar despliegue, mantenimiento y extensibilidad. Si quieres que cree los archivos de include, variables de entorno, o un script `install.php` que genere las tablas, lo implemento.
+
+---
+
+## Lenguajes y tecnologías (definición rápida)
+
+- PHP
+  - Lógica del servidor, autenticación, CRUD y plantillas simples.
+  - Uso principal: archivos .php (login.php, registrarse.php, nomina.php, etc.).
+- SQL / MySQL
+  - Persistencia de datos. Tablas principales: usuarios, empleados.
+  - Sentencias DDL/DML en schema.sql o consola MySQL.
+- HTML
+  - Estructura de las vistas (semántica para accesibilidad).
+- CSS
+  - Presentación (css/styles.css para UI global, css/login.css para auth).
+- JavaScript
+  - Interactividad y UX (modal, confirmaciones, indicador del menú).
+- Entorno
+  - XAMPP en Windows (Apache + MySQL + PHP). Rutas ejemplo: c:\xampp\php\php.exe, c:\xampp\mysql\bin\mysql.exe
+
+---
+
+## Control de versiones — Convenciones para commits y ramas
+
+Objetivo: mensajes claros, reversibles y fáciles de revisar.
+
+1. Modelo de ramas (sugerido)
+
+- main (producción)
+- develop (integración)
+- feature/<nombre> (nuevas funcionalidades)
+- fix/<issue> (correcciones)
+- hotfix/<issue> (urgentes sobre main)
+
+2. Formato de mensaje de commit (recomendado - estilo Conventional Commits)
+
+- Estructura:
+
+  - tipo(scope): resumen corto
+  - línea en blanco
+  - cuerpo opcional (explicar _qué_ y _por qué_, no _cómo_)
+  - footer opcional (referencia a issue, breaking changes)
+
+- Tipos comunes:
+
+  - feat: nueva funcionalidad
+  - fix: corrección de bug
+  - docs: documentación
+  - style: formato/estilos sin lógica
+  - refactor: reestructuración sin cambio de comportamiento
+  - test: pruebas
+  - chore: tareas de mantenimiento (scripts, deps)
+
+- Ejemplos:
+  - feat(nomina): agregar modal lateral para registrar empleados
+  - fix(nomina): corregir eliminación que no recargaba lista
+  - docs(readme): añadir guías de commits y lenguajes
+
+3. Comandos básicos (Windows / Git CLI)
+
+- Crear rama de feature:
+  ```
+  git checkout -b feature/nomina-modal
+  ```
+- Añadir cambios:
+  ```
+  git add nomina.php css/styles.css
+  ```
+  o todo:
+  ```
+  git add .
+  ```
+- Hacer commit (ejemplo):
+  ```
+  git commit -m "feat(nomina): agregar modal lateral para registrar empleados"
+  ```
+- Subir rama:
+  ```
+  git push -u origin feature/nomina-modal
+  ```
+- Crear Pull Request desde la rama -> revisar -> merge a develop/main según flujo.
+
+4. Recomendaciones de commits
+
+- Commits pequeños y atómicos (1 cambio lógico por commit).
+- Mensajes claros y en presente imperativo: "Agregar", "Corregir".
+- Incluir scope que indique módulo/archivo (nomina, login, styles).
+- Usar PRs para revisión; enlazar issue si aplica (ej: #12).
+
+---
+
+## Estructura del proyecto y mapeo a scopes de commits
+
+- / (raíz)
+  - README.md — docs (docs)
+  - config.php — configuración (chore/config)
+- /css
+  - styles.css — estilos globales (style)
+  - login.css — estilos auth (style)
+- /images
+  - logo.png, etc. (assets)
+- login.php, registrarse.php, logout.php — autenticación (feat/login, fix/login)
+- dashboard.php — panel principal, header/top-nav (feat/dashboard)
+- nomina.php — módulo Nómina (feat/nomina, fix/nomina)
+- inventario.php, mantenimiento.php, ventas.php — otros módulos (feat/inventario, etc.)
+
+Sugerencia: al commitear cambios que afectan varios archivos, usa scope múltiple o describe en el cuerpo del commit:
+
+```
+refactor(nomina,styles): unificar clase .form-panel y mejorar accesibilidad
+
+- mover estilos de .form-panel a styles.css
+- añadir bloqueo de scroll al abrir modal
+```
+
+---
+
+## Workflow sugerido rápido (pasos típicos)
+
+1. Actualiza tu fork/local:
+   ```
+   git checkout develop
+   git pull origin develop
+   ```
+2. Crear rama de trabajo:
+   ```
+   git checkout -b feature/<descripcion-corta>
+   ```
+3. Trabajar y probar localmente (XAMPP).
+4. Añadir y commitear con mensaje claro.
+5. Push y abrir PR:
+   ```
+   git push -u origin feature/<descripcion-corta>
+   ```
+6. Revisar, corregir en la rama si es necesario, merge.
+
+---
