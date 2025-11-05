@@ -4,7 +4,7 @@
 
 Resumen
 
-- Aplicación web PHP sencilla para gestión: autenticación (registro/login), dashboard, inventario, nómina, mantenimiento y ventas.
+- Aplicación web PHP sencilla para gestión: autenticación (registro/login), dashboard, inventario, nómina y ventas.
 - Código orientado a XAMPP (Windows). Usa MySQL y PHP sin frameworks.
 
 Requisitos
@@ -21,7 +21,7 @@ Estructura principal de archivos
 - logout.php — confirmación y cierre de sesión (token CSRF en sesión).
 - dashboard.php — vista principal con menú superior (resalta página activa).
 - nomina.php — CRUD de empleados (tabla `empleados`, formulario modal, editar/eliminar).
-- inventario.php, mantenimiento.php, ventas.php — vistas modulares.
+- inventario.php,ventas.php — vistas modulares.
 - css/styles.css — estilos globales (header, top-nav, tablas, modal).
 - css/login.css — estilos específicos para login/registro.
 - images/ — logos e imágenes.
@@ -260,7 +260,7 @@ Objetivo: mensajes claros, reversibles y fáciles de revisar.
 - login.php, registrarse.php, logout.php — autenticación (feat/login, fix/login)
 - dashboard.php — panel principal, header/top-nav (feat/dashboard)
 - nomina.php — módulo Nómina (feat/nomina, fix/nomina)
-- inventario.php, mantenimiento.php, ventas.php — otros módulos (feat/inventario, etc.)
+- inventario.php, ventas.php — otros módulos (feat/inventario, etc.)
 
 Sugerencia: al commitear cambios que afectan varios archivos, usa scope múltiple o describe en el cuerpo del commit:
 

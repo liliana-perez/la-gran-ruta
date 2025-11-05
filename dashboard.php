@@ -47,7 +47,6 @@ $current = basename($_SERVER['PHP_SELF']);
           <a href="dashboard.php" class="menu-button <?php echo $current === 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a>
           <a href="inventario.php" class="menu-button <?php echo $current === 'inventario.php' ? 'active' : ''; ?>">Inventario</a>
           <a href="nomina.php" class="menu-button <?php echo $current === 'nomina.php' ? 'active' : ''; ?>">Nómina</a>
-          <a href="mantenimiento.php" class="menu-button <?php echo $current === 'mantenimiento.php' ? 'active' : ''; ?>">Mantenimiento</a>
           <a href="ventas.php" class="menu-button <?php echo $current === 'ventas.php' ? 'active' : ''; ?>">Ventas</a>
           <a href="logout.php" class="menu-button">Cerrar sesión</a>
         </div>
