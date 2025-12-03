@@ -167,39 +167,21 @@ $conn->close();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!--
-  Aca es el titulo de la pagina
--->
-
   <title>Nómina - La Gran Ruta</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body>
   <div class="container">
-    <header class="header">
-      <div class="header-brand">
-        <img src="images/logo.png" alt="Logo La Gran Ruta" class="logo" />
-        <h1 class="title">LA GRAN RUTA</h1>
-      </div>
-
-      <nav class="top-nav" aria-label="Menú principal">
-        <div class="nav-menu">
-          <a href="dashboard.php" class="menu-button <?php echo $current === 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a>
-          <a href="inventario.php" class="menu-button <?php echo $current === 'inventario.php' ? 'active' : ''; ?>">Inventario</a>
-          <a href="nomina.php" class="menu-button <?php echo $current === 'nomina.php' ? 'active' : ''; ?>">Nómina</a>
-          <a href="ventas.php" class="menu-button <?php echo $current === 'ventas.php' ? 'active' : ''; ?>">Ventas</a>
-          <a href="logout.php" class="menu-button">Cerrar sesión</a>
-        </div>
-        <span class="nav-indicator" aria-hidden="true"></span>
-      </nav>
-    </header>
+    <?php include 'includes/header_nav.php'; ?>
 
     <main class="main-content">
       <h2 class="welcome">Gestión de Nómina</h2>
       <p class="instruction">Consulta y administra la nómina del personal.</p>
+  <!--
+  Aca es el titulo de la pagina
+-->
 
-      <!-- Mensajes -->
       <?php if ($error !== ''): ?>
         <div class="message message-error" role="alert" aria-live="assertive">
           <span class="message-icon" aria-hidden="true">⚠</span>
