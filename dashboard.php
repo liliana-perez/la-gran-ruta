@@ -30,23 +30,22 @@ $current = basename($_SERVER['PHP_SELF']);
 // 1. Resumen de Ventas
 $totalVentas = 0;
 $ingresosTotales = 0;
-$ventasRecientes = 0; // Ventas de hoy
+$ventasRecientes = 0;
 
 try {
-    // Total Ventas e Ingresos
-    $stmt = $pdo->query("SELECT COUNT(*) as count, SUM(total) as revenue FROM ventas");
+    $stmt = $pdo->query("SELECT SUM(cantidad) as total_cantidad, SUM(total) as revenue FROM ventas");
     $res = $stmt->fetch(PDO::FETCH_ASSOC);
-    $totalVentas = $res['count'] ?? 0;
+    $totalVentas = $res['total_cantidad'] ?? 0;
     $ingresosTotales = $res['revenue'] ?? 0;
 
     // Ventas de hoy
     $hoy = date('Y-m-d');
-    $stmtHoy = $pdo->prepare("SELECT COUNT(*) as count FROM ventas WHERE fecha = ?");
+    $stmtHoy = $pdo->prepare("SELECT SUM(cantidad) as total_cantidad FROM ventas WHERE fecha = ?");
     $stmtHoy->execute([$hoy]);
-    $ventasRecientes = $stmtHoy->fetchColumn();
+    $ventasRecientes = $stmtHoy->fetchColumn() ?? 0;
 
 } catch (PDOException $e) {
-    // Manejo silencioso o log de error
+    // Manejo silencioso
 }
 
 // 2. Datos para Gráfico de Stock
